@@ -20,11 +20,7 @@ public class Drone {
         idUrbanizaciones.add(idOrigen); // incluyo el centro
         int profundidad = 1; // empezamos por 1
         do {
-            for (final String urbanizacion: idUrbanizaciones)
-            {
-                Coordenada coordenada = obtenerCoordenadas(urbanizacion);
-                idUrbanizaciones.addAll(obtenerUrbanizaciones(coordenada.getLatitud(), coordenada.getLongitud(), rangoInferior));
-            }
+
             idUrbanizaciones.add(obtenerAdyacente(idOrigen, Mapa.Direcciones.ARRIBA));
             idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ARRIBA),Mapa.Direcciones.DERECHA));
             idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ARRIBA),Mapa.Direcciones.IZQUIERDA));
@@ -34,6 +30,11 @@ public class Drone {
             idUrbanizaciones.add(obtenerAdyacente(idOrigen, Mapa.Direcciones.DERECHA));
             idUrbanizaciones.add(obtenerAdyacente(idOrigen, Mapa.Direcciones.IZQUIERDA));
             profundidad +=1;
+            for (final String urbanizacion: idUrbanizaciones)
+            {
+                Coordenada coordenada = obtenerCoordenadas(urbanizacion);
+                idUrbanizaciones.addAll(obtenerUrbanizaciones(coordenada.getLatitud(), coordenada.getLongitud(), rangoInferior));
+            }
 
         } while (profundidad == rango);
 
