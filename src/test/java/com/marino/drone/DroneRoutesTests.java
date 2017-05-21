@@ -19,15 +19,13 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class DroneRoutesTests {
 
-    List<String> idUrbanizacionesRango_1 = Arrays.asList("id urbanización7", "id urbanización8", "id urbanización9", "id urbanización12", "id urbanización13", "id urbanización14", "id urbanización17", "id urbanización18", "id urbanización19"); // size 8
+    List<String> idUrbanizacionesRango_1 = Arrays.asList("id urbanización7", "id urbanización8", "id urbanización9", "id urbanización12", "id urbanización13", "id urbanización14", "id urbanización17", "id urbanización18", "id urbanización19"); // size 9
     List<String> idUrbanizacionesRango_2 = Arrays.asList("Larry", "Moe", "Curly"); // size 24
     List<String> idUrbanizacionesRango_3 = Arrays.asList("Larry", "Moe", "Curly"); // size 48
 
     @Test
     public void obtenerUrbanizaciones() {
         Drone drone = new Drone();
-        Mapa mapa = new Mapa();
-        //mapa.initialize();
         Set<String> lista1 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 1);
         Assert.assertTrue("la lista de urbanizaciones es igual", lista1.size() == idUrbanizacionesRango_1.size());
         Set<String> lista2 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 2);
