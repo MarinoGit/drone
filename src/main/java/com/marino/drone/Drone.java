@@ -1,8 +1,10 @@
 package com.marino.drone;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -14,32 +16,36 @@ import java.util.List;
  */
 public class Drone {
 
-    public List<String> obtenerUrbanizaciones(final double latitud, final double longitud, final int rango) {
-        List<String> idUrbanizaciones = Lists.newArrayList();
+    /**
+     * A partir de una latitud, longitud y un rango devolvemos una lista de identificadores de urbanizaciones
+     *
+     * @param latitud
+     * @param longitud
+     * @param rango
+     * @return
+     */
+    public Set<String> obtenerUrbanizaciones(final double latitud, final double longitud, final int rango) {
+        Set<String> idUrbanizaciones = Sets.newHashSet();
         String idOrigen = obtenerIdentificadorUrbanizacion(latitud, longitud);
         idUrbanizaciones.add(idOrigen); // incluyo el centro
-        int profundidad = 1; // empezamos por 1
-        do {
-
+        if (rango == 1) {
             idUrbanizaciones.add(obtenerAdyacente(idOrigen, Mapa.Direcciones.ARRIBA));
-            idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ARRIBA),Mapa.Direcciones.DERECHA));
-            idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ARRIBA),Mapa.Direcciones.IZQUIERDA));
+            idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ARRIBA), Mapa.Direcciones.DERECHA));
+            idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ARRIBA), Mapa.Direcciones.IZQUIERDA));
             idUrbanizaciones.add(obtenerAdyacente(idOrigen, Mapa.Direcciones.ABAJO));
-            idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ABAJO),Mapa.Direcciones.DERECHA));
-            idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ABAJO),Mapa.Direcciones.IZQUIERDA));
+            idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ABAJO), Mapa.Direcciones.DERECHA));
+            idUrbanizaciones.add(obtenerAdyacente(obtenerAdyacente(idOrigen, Mapa.Direcciones.ABAJO), Mapa.Direcciones.IZQUIERDA));
             idUrbanizaciones.add(obtenerAdyacente(idOrigen, Mapa.Direcciones.DERECHA));
             idUrbanizaciones.add(obtenerAdyacente(idOrigen, Mapa.Direcciones.IZQUIERDA));
-            profundidad +=1;
-            for (final String urbanizacion: idUrbanizaciones)
-            {
+        } else {
+            List<String> idUrbanizacionesBis = Lists.newArrayList();
+            for (final String urbanizacion : idUrbanizaciones) {
                 Coordenada coordenada = obtenerCoordenadas(urbanizacion);
-                idUrbanizaciones.addAll(obtenerUrbanizaciones(coordenada.getLatitud(), coordenada.getLongitud(), rangoInferior));
+                idUrbanizacionesBis.addAll(obtenerUrbanizaciones(coordenada.getLatitud(), coordenada.getLongitud(), rango - 1));
             }
-
-        } while (profundidad == rango);
-
+            idUrbanizaciones.addAll(idUrbanizacionesBis);
+        }
         return idUrbanizaciones;
-
     }
 
     private String obtenerAdyacente(final String idOrigen, final Mapa.Direcciones direccion) {
@@ -80,11 +86,10 @@ public class Drone {
 
     private String obtenerIdentificadorUrbanizacion(double latitud, double longitud) {
         String resultado = "";
-        if (latitud==38.56889 && longitud==40.511107)
-        {
-            resultado =  "id urbanizacion13";
-        } else if (latitud==38.572929 && longitud==40.529393) {
-            resultado =  "id urbanizacion18";
+        if (latitud == 38.56889 && longitud == 40.511107) {
+            resultado = "id urbanizacion13";
+        } else if (latitud == 38.572929 && longitud == 40.529393) {
+            resultado = "id urbanizacion18";
         }
         return resultado;
     }

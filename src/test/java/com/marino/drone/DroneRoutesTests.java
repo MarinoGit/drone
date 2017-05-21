@@ -7,6 +7,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by
@@ -27,13 +28,13 @@ public class DroneRoutesTests {
         Drone drone = new Drone();
         Mapa mapa = new Mapa();
         //mapa.initialize();
-        List<String> lista1 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 1);
+        Set<String> lista1 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 1);
         Assert.assertTrue("la lista de urbanizaciones es igual", lista1.size() == idUrbanizacionesRango_1.size());
-        List<String> lista2 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 2);
+        Set<String> lista2 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 2);
         Assert.assertTrue("la lista de urbanizaciones es igual", lista2.size() == 24);
-        List<String> lista3 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 3);
+        Set<String> lista3 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 3);
         Assert.assertTrue("la lista de urbanizaciones es igual", lista3.size() == 48);
-        List<String> lista4 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 4);
+        Set<String> lista4 = drone.obtenerUrbanizaciones(38.56889, 40.511107, 4);
 
     }
 }
